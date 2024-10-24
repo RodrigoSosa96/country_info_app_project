@@ -4,6 +4,8 @@ import { makeRequest } from '@/shared/utils/axios'
 
 const NAGER = process.env.NAGER
 const COUNTRIESNOW = process.env.COUNTRIESNOW
+const WEATHER_API = process.env.WEATHER_API
+const WEATHER_API_KEY = process.env.WEATHER_API_KEY
 
 export const getAllCountries = async () => {
   try {
@@ -24,12 +26,27 @@ export const getCountryInfo = async (countryCode: string): Promise<any> => {
 
     const contryPopulation = await getCountryPopulation(countryData.commonName)
     const countryFlag = await getCountryFlag(countryData.commonName)
+    const countryTemperature = await getCountryTemperature(countryData.commonName)
 
     return {
       ...countryData,
       population: contryPopulation,
       flag: countryFlag,
+      temperature: countryTemperature,
     }
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+}
+
+export const getCountryTemperature = async (country: string) => {
+  try {
+    const response = await makeRequest<{ main: { temp: number } }>(
+      'GET',
+      `${WEATHER_API}?q=${country}&appid=${WEATHER_API_KEY}`
+    )
+    return response.main.temp
   } catch (error) {
     console.error(error)
     throw error
@@ -110,4 +127,5 @@ type Country = {
   borders: CountryBorder[]
   population: Population
   flag: CountryFlag
+  temperature: number
 }

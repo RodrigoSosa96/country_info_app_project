@@ -42,6 +42,7 @@ interface CountryData {
   region: string;
   borders: BorderCountry[];
   population: PopulationData[];
+  temperature: number;
 }
 
 export default function CountryDetail({ country }: { country: CountryData }) {
@@ -59,6 +60,9 @@ export default function CountryDetail({ country }: { country: CountryData }) {
           <h1 className="text-4xl font-bold">{country.commonName}</h1>
           <p className="text-xl text-muted-foreground">
             {country.officialName}
+          </p>
+          <p className="text-xl text-muted-foreground">
+            Current Temperature: {country.temperature}°C
           </p>
         </div>
       </div>
