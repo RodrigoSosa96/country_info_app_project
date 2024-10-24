@@ -19,6 +19,11 @@ interface PopulationData {
   value: number;
 }
 
+interface Province {
+  name: string;
+  code: string;
+}
+
 interface CountryData {
   commonName: string;
   officialName: string;
@@ -27,6 +32,7 @@ interface CountryData {
   borders: BorderCountry[];
   population: PopulationData[];
   temperature: number;
+  provinces: Province[];
 }
 
 const API_URL = process.env.API_URL;

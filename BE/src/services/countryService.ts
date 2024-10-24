@@ -27,12 +27,14 @@ export const getCountryInfo = async (countryCode: string): Promise<any> => {
     const contryPopulation = await getCountryPopulation(countryData.commonName)
     const countryFlag = await getCountryFlag(countryData.commonName)
     const countryTemperature = await getCountryTemperature(countryData.commonName)
+    const countryProvinces = await getCountryProvinces(countryData.commonName)
 
     return {
       ...countryData,
       population: contryPopulation,
       flag: countryFlag,
       temperature: countryTemperature,
+      provinces: countryProvinces,
     }
   } catch (error) {
     console.error(error)
@@ -92,6 +94,22 @@ export const getCountryFlag = async (country?: string) => {
   }
 }
 
+export const getCountryProvinces = async (country: string) => {
+  try {
+    const response = await makeRequest<{ data: Province[] }>(
+      'POST',
+      `${COUNTRIESNOW}/countries/provinces`,
+      {
+        country,
+      }
+    )
+    return response.data
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+}
+
 type PopulationCount = {
   year: number
   value: number
@@ -128,4 +146,10 @@ type Country = {
   population: Population
   flag: CountryFlag
   temperature: number
+  provinces: Province[]
+}
+
+type Province = {
+  name: string
+  code: string
 }
