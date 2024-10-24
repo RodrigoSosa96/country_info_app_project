@@ -35,6 +35,11 @@ interface PopulationData {
   value: number;
 }
 
+interface Province {
+  name: string;
+  code: string;
+}
+
 interface CountryData {
   commonName: string;
   officialName: string;
@@ -43,6 +48,7 @@ interface CountryData {
   borders: BorderCountry[];
   population: PopulationData[];
   temperature: number;
+  provinces: Province[];
 }
 
 export default function CountryDetail({ country }: { country: CountryData }) {
@@ -88,6 +94,28 @@ export default function CountryDetail({ country }: { country: CountryData }) {
                   {border.commonName}
                 </Badge>
               </Link>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card className="mb-8">
+        <CardHeader>
+          <CardTitle>Provinces</CardTitle>
+          <CardDescription>
+            Provinces of {country.commonName}
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="flex flex-wrap gap-2">
+            {country.provinces.map((province) => (
+              <Badge
+                key={province.code}
+                variant="secondary"
+                className="cursor-pointer transition-colors hover:bg-secondary-foreground hover:text-secondary"
+              >
+                {province.name}
+              </Badge>
             ))}
           </div>
         </CardContent>

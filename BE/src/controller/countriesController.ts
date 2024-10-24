@@ -23,7 +23,21 @@ const getCountryInfo = async (req: Request, res: Response, next: NextFunction) =
   }
 }
 
+const getCountryProvinces = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const countryCode = req.params.code
+    if (!countryCode) {
+      throw new Error('Country code is required')
+    }
+    const provinces = await countryService.getCountryProvinces(countryCode)
+    res.json(provinces)
+  } catch (error) {
+    next(error)
+  }
+}
+
 export default {
   getAvailableCountries,
   getCountryInfo,
+  getCountryProvinces,
 }
