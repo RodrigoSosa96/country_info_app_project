@@ -26,6 +26,7 @@ interface CountryData {
   region: string;
   borders: BorderCountry[];
   population: PopulationData[];
+  temperature: number;
 }
 
 const API_URL = process.env.API_URL;
